@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Client FE</h1>
+    <h1 id="noiDung"></h1>
+    <input id="txt-gui" />
+    <button id="btn-gui"> Gửi </button>
+
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"
+        integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+"
+        crossorigin="anonymous"></script>
+    <script>
+        const socket = io("ws://localhost:8080");
+
+        document.querySelector("#btn-gui").onclick = function () {
+            let mess = document.querySelector("#txt-gui").value;
+            socket.emit("gui-mess", mess);
+        }
+        socket.on("noidung-chat", user => {
+            document.querySelector("#noiDung").innerHTML +=
+                `${user.id}: ${user.mess} <br/>`;
+        })
+
+        socket.on("client-connect", (data) => {
+            document.querySelector("#noiDung").innerHTML += data + " đã kết nối <br />";
+        })
+
+        socket.on("client-disconnect", (data) => {
+            document.querySelector("#noiDung").innerHTML += data + " đã thoát <br />";
+        })
+
+    </script>
+</body>
+
+</html>
