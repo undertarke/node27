@@ -1,0 +1,40 @@
+# docker-compose up -d
+version: '3'
+services:
+  mysql_db:
+    image: mysql
+    container_name: mysql_db
+    # env_file: .env
+    # $HOST
+    environment:
+      - MYSQL_ROOT_PASSWORD=1234
+      - MYSQL_DATABASE=db_food
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql_db:/var/lib/mysql
+    networks:
+      - node-network
+  app:
+    depends_on:
+      - mysql_db
+    container_name: cons-node
+    build: . 
+    # image: undertarke/node27:v1
+    environment:
+      - DB_HOST=mysql_db
+      - DB_DATABASE=db_food
+      - DB_USER=root
+      - DB_PASS=1234
+      - DB_PORT=3306
+      - DB_DIALECT=mysql
+    ports:
+      - 80:8080
+    networks:
+      - node-network
+
+volumes:
+  mysql_db:
+    driver: local
+networks:
+  node-network:
