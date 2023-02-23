@@ -8,11 +8,6 @@ export class FoodService {
 
     prisma: PrismaClient = new PrismaClient();
 
-    getFood(): Promise<FoodDto[]> {
-        
-        let data = this.prisma.food.findMany();
-        return data;
-    }
 
 }
 

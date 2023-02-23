@@ -11,3 +11,7 @@ export class FoodModule {}
 // nest g module food
 // nest g controller food --no-spec
 // nest g service food --no-spec
+
+// nest g module task
+// nest g controller task --no-spec
+// nest g service task --no-spec
